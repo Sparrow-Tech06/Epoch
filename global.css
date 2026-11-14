@@ -1,1 +1,182 @@
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f7f8fc;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #252538;
+}
+
+.section-title {
+    font-weight: 750;
+    color: #55576a;
+    font-size: 17px;
+}
+
+.chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Chapter Card */
+
+.chapter-card {
+    width: 100%;
+    min-height: 105px;
+    padding: 17px 20px;
+    border-radius: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    text-decoration: none;
+    color: #252538;
+
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+/* Left Side */
+
+.chapter-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+}
+
+.chapter-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+
+    font-size: 25px;
+}
+
+.chapter-info {
+    min-width: 0;
+}
+
+.chapter-code {
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.6px;
+    opacity: 0.65;
+}
+
+.chapter-info h6 {
+    font-size: 16px;
+    font-weight: 750;
+    margin: 3px 0;
+}
+
+.chapter-info small {
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+/* Right Arrow */
+
+.chapter-arrow {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+
+    font-size: 20px;
+    margin-left: 10px;
+    transition: transform 0.25s ease;
+}
+
+.chapter-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    color: #252538;
+}
+
+.chapter-card:hover .chapter-arrow {
+    transform: translateX(4px);
+}
+
+/* Colour Themes */
+
+.color-yellow {
+    background: #fff2a8;
+}
+
+.color-blue {
+    background: #a9ddf5;
+}
+
+.color-pink {
+    background: #f5b0b0;
+}
+
+.color-purple {
+    background: #d0c0fa;
+}
+
+.color-orange {
+    background: #ffc68c;
+}
+
+.color-green {
+    background: #a4edc4;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 576px) {
+
+    .chapter-card {
+        min-height: 100px;
+        padding: 15px;
+        border-radius: 20px;
+    }
+
+    .chapter-left {
+        gap: 12px;
+    }
+
+    .chapter-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        font-size: 22px;
+    }
+
+    .chapter-info h6 {
+        font-size: 14px;
+    }
+
+    .chapter-info small {
+        font-size: 11px;
+    }
+
+    .chapter-arrow {
+        width: 35px;
+        height: 35px;
+        min-width: 35px;
+        font-size: 18px;
+    }
+}
+
