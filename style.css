@@ -1,1 +1,69 @@
+body {
+  background-color: #f4f6f9;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
 
+/* Responsive Chapter Grid using minmax */
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.chapter-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid #e0e4e8;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: #212529;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.chapter-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+
+/* Option Cards */
+.option-item {
+  border: 1.5px solid #dee2e6;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.option-item:hover:not(.disabled) {
+  border-color: #0d6efd;
+  background-color: #f8faff;
+}
+
+.option-item.disabled {
+  cursor: default;
+}
+
+.option-item.correct {
+  border-color: #198754;
+  background-color: #d1e7dd;
+}
+
+.option-item.wrong {
+  border-color: #dc3545;
+  background-color: #f8d7da;
+}
+
+.explanation-box {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+  color: #333;
+}
