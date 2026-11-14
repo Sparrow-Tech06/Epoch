@@ -1,155 +1,558 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Quiz</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #6759e8;
+  --green: #16a36a;
+  --red: #e74757;
+  --bg: #f5f6fc;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  font-family: system-ui, sans-serif;
+  color: #20243a;
+  padding-bottom: 110px;
+}
+
+.container { max-width: 650px !important; }
+
+/* Header */
+.header {
+  background: white;
+  padding: 18px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(30,35,80,.04);
+}
+
+.chapter-label {
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+#quiz-title { font-size: 19px; }
+
+/* Progress */
+.progress-card {
+  background: white;
+  border-radius: 18px;
+  padding: 17px;
+  box-shadow: 0 4px 20px rgba(30,35,80,.04);
+}
+
+.progress-track {
+  height: 9px;
+  background: #ececf5;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#7465f4,#a18aff);
+  border-radius: 20px;
+  transition: width .35s ease;
+}
+
+.stat {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 11px;
+  border-radius: 10px;
+}
+
+.stat-right { background:#dcf8e9; color:#087a49; }
+.stat-wrong { background:#ffe2e5; color:#c52d40; }
+
+/* Question */
+.question-card {
+  background: white;
+  padding: 22px;
+  border-radius: 22px;
+  box-shadow: 0 5px 25px rgba(30,35,80,.05);
+  margin-top: 18px;
+}
+
+.question-number {
+  background: #eeebff;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 12px;
+  border-radius: 9px;
+}
+
+.question-text {
+  font-size: 18px;
+  line-height: 1.65;
+  font-weight: 750;
+  margin: 20px 0;
+}
+
+/* Options */
+.opt-card {
+  border: 1.5px solid #e9eaf2;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  background: white;
+  transition: all .2s ease;
+}
+
+.opt-card:not(.answered):hover {
+  border-color: #968af5;
+  background: #faf9ff;
+  transform: translateY(-2px);
+}
+
+.opt-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.opt-letter {
+  min-width: 33px;
+  height: 33px;
+  border-radius: 10px;
+  background: #f0f0f7;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #65677b;
+}
+
+.opt-text {
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.opt-icon {
+  font-size: 18px;
+  display: none;
+}
+
+/* Correct */
+.opt-card.correct {
+  border: 2px solid var(--green);
+  background: #e9f9f0;
+  color: #087a49;
+}
+
+.opt-card.correct .opt-letter {
+  background: var(--green);
+  color: white;
+}
+
+.opt-card.correct .opt-icon {
+  display: block;
+  color: var(--green);
+}
+
+/* Wrong */
+.opt-card.wrong {
+  border: 2px solid var(--red);
+  background: #fff0f1;
+  color: #bd293b;
+}
+
+.opt-card.wrong .opt-letter {
+  background: var(--red);
+  color: white;
+}
+
+.opt-card.wrong .opt-icon {
+  display: block;
+  color: var(--red);
+}
+
+/* Explanation */
+.exp-btn {
+  border: none;
+  background: #f1f0ff;
+  color: var(--primary);
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+
+.opt-exp {
+  background: rgba(103,89,232,.06);
+  border-radius: 11px;
+  padding: 12px;
+  margin-top: 13px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #55566c;
+}
+
+.exam-badge {
+  font-size: 10px;
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: #f0efff;
+  color: #6759e8;
+  font-weight: 700;
+  margin: 2px;
+}
+
+/* Bottom navigation */
+.bottom-nav {
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid #eeeef5;
+  padding: 15px 0;
+}
+
+.nav-pill {
+  border: none;
+  border-radius: 14px;
+  padding: 12px 30px;
+  font-weight: 750;
+  min-width: 125px;
+  transition: .2s;
+}
+
+#btn-prev { background:#eeeef6; color:#555; }
+#btn-next { background:var(--primary); color:white; }
+
+.nav-pill:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.nav-pill:not(:disabled):active {
+  transform: scale(.96);
+}
+
+.error-box {
+  background: #fff0f1;
+  color: #bd293b;
+  border-radius: 15px;
+  padding: 18px;
+}
+</style>
 </head>
-<body class="pb-5">
 
-  <div class="container py-3" style="max-width: 600px;">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-start mb-3">
-      <div>
-        <h5 id="quiz-title" class="fw-bold mb-0">Loading...</h5>
-        <small id="quiz-subtitle" class="text-muted">0 questions</small>
-      </div>
-      <a href="index.html" class="btn btn-sm btn-light rounded-pill border px-3">
-        <i class="bi bi-grid me-1"></i>Chapters
-      </a>
+<body>
+
+<div class="container py-3">
+
+  <!-- Header -->
+  <div class="header mb-3 d-flex justify-content-between align-items-center">
+    <div>
+      <div class="chapter-label mb-1">Practice Session</div>
+      <h5 id="quiz-title" class="fw-bold mb-1">Loading...</h5>
+      <small id="quiz-subtitle" class="text-muted">0 Questions</small>
     </div>
 
-    <!-- Progress & Score Bar -->
-    <div class="d-flex align-items-center gap-3 mb-4">
-      <div class="progress-track">
-        <div id="prog-fill" class="progress-fill" style="width: 0%"></div>
-        <div id="prog-thumb" class="progress-thumb" style="left: 0%"></div>
-      </div>
-      <span id="q-counter" class="fw-semibold text-secondary small">0 / 0</span>
-      <span id="wrong-count" class="pill-stat" style="background:#ff8a93; color:#4a0007;">✕ 0</span>
-      <span id="right-count" class="pill-stat" style="background:#a3e9a4; color:#0a360c;">✓ 0</span>
-    </div>
-
-    <!-- Question & Options Area -->
-    <div id="quiz-area"></div>
+    <a href="index.html"
+       class="btn btn-light border rounded-4 px-3">
+      <i class="bi bi-grid"></i>
+    </a>
   </div>
 
-  <!-- Fixed Bottom Navigation -->
-  <div class="fixed-bottom bg-transparent py-3">
-    <div class="d-flex justify-content-center gap-3">
-      <button id="btn-prev" class="nav-pill" style="background:#efefef; color:#222;">Back</button>
-      <button id="btn-next" class="nav-pill" style="background:#a8d5f7; color:#0b253a;">Next</button>
+  <!-- Progress -->
+  <div class="progress-card">
+    <div class="d-flex justify-content-between mb-3">
+      <span class="small fw-bold text-secondary">YOUR PROGRESS</span>
+      <span id="q-counter" class="small fw-bold">0 / 0</span>
+    </div>
+
+    <div class="progress-track mb-3">
+      <div id="prog-fill" class="progress-fill"></div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="stat stat-wrong">
+        <i class="bi bi-x-circle-fill"></i>
+        <span id="wrong-count">0</span>
+      </span>
+
+      <span class="stat stat-right">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="right-count">0</span>
+      </span>
     </div>
   </div>
 
-  <script>
-    const id = new URLSearchParams(location.search).get("id");
-    let questions = [], idx = 0, userAnswers = {};
+  <!-- Question Area -->
+  <div id="quiz-area"></div>
 
-    async function init() {
-      if (!id) return showErr("Chapter ID missing in URL.");
-      try {
-        const res = await fetch(`data/${id}.json`);
-        if (!res.ok) throw 0;
-        const data = await res.json();
-        questions = data.questions || [];
-        document.getElementById("quiz-title").textContent = data.chapterTitle || "Practice Quiz";
-        document.getElementById("quiz-subtitle").textContent = `${questions.length} questions`;
-        render();
-      } catch {
-        showErr(`File data/${id}.json not found.`);
-      }
-    }
+</div>
 
-    function render() {
-      if (!questions.length) return;
-      const q = questions[idx];
-      const chosen = userAnswers[idx];
-      const isAnswered = chosen !== undefined;
+<!-- Bottom Navigation -->
+<div class="fixed-bottom bottom-nav">
+  <div class="d-flex justify-content-center gap-3">
+    <button id="btn-prev" class="nav-pill" disabled>
+      <i class="bi bi-arrow-left me-1"></i> Back
+    </button>
 
-      // Update progress & stats
-      const pct = ((idx + 1) / questions.length) * 100;
-      document.getElementById("prog-fill").style.width = `${pct}%`;
-      document.getElementById("prog-thumb").style.left = `${pct}%`;
-      document.getElementById("q-counter").textContent = `${idx + 1} / ${questions.length}`;
+    <button id="btn-next" class="nav-pill">
+      Next <i class="bi bi-arrow-right ms-1"></i>
+    </button>
+  </div>
+</div>
 
-      let right = 0, wrong = 0;
-      Object.entries(userAnswers).forEach(([qIdx, ans]) => {
-        ans === questions[qIdx].correctIndex ? right++ : wrong++;
-      });
-      document.getElementById("right-count").textContent = `✓ ${right}`;
-      document.getElementById("wrong-count").textContent = `✕ ${wrong}`;
+<script>
+const id = new URLSearchParams(location.search).get("id");
 
-      // Exam badges
-      const exams = (q.exams || []).map(e => `<span class="badge bg-light text-secondary border me-1">${e}</span>`).join("");
+let questions = [];
+let idx = 0;
+let userAnswers = {};
 
-      // Options HTML
-      const optsHtml = q.options.map((opt, i) => {
-        const letter = String.fromCharCode(65 + i);
-        const isCorrect = i === q.correctIndex;
-        const isUserChoice = i === chosen;
+async function init() {
+  if (!id) return showErr("Chapter ID missing.");
 
-        let badge = "";
-        if (isAnswered && isCorrect) badge = `<span class="pill-ans" style="background:#a3e9a4; color:#0a360c;">✓ Correct answer</span>`;
-        else if (isAnswered && isUserChoice) badge = `<span class="pill-ans" style="background:#ff8a93; color:#4a0007;">✕ Wrong</span>`;
+  try {
+    const res = await fetch(`data/${id}.json`);
+    if (!res.ok) throw new Error();
 
-        const yourTag = (isAnswered && isUserChoice) ? `<span class="text-muted small ms-2">(Your answer)</span>` : "";
-        const showExp = isAnswered && (isCorrect || isUserChoice);
+    const data = await res.json();
 
-        return `
-          <div class="opt-card ${isAnswered ? 'answered' : ''}" onclick="selectOpt(${i})">
-            <div class="d-flex justify-content-between align-items-center gap-2">
-              <div class="d-flex align-items-center gap-2">
-                <button type="button" class="opt-dropdown-btn" onclick="toggleExp(event, ${i})" title="Show explanation">
-                  <i id="ico-${i}" class="bi bi-chevron-${showExp ? 'up' : 'down'}"></i>
-                </button>
-                <span class="fw-semibold">${letter}.</span>
-                <span>${opt.text}${yourTag}</span>
-              </div>
-              ${badge}
-            </div>
-            <div id="exp-${i}" class="opt-exp ${showExp ? '' : 'd-none'}">${opt.explanation}</div>
-          </div>`;
-      }).join("");
+    questions = data.questions || [];
 
-      document.getElementById("quiz-area").innerHTML = `
-        <div class="mb-2 d-flex justify-content-between align-items-center">
-          <span class="text-secondary fw-semibold">Question ${idx + 1}</span>
-          <div>${exams}</div>
+    document.getElementById("quiz-title").textContent =
+      data.chapterTitle || "Practice Quiz";
+
+    document.getElementById("quiz-subtitle").textContent =
+      `${questions.length} Questions`;
+
+    render();
+
+  } catch {
+    showErr(`File data/${id}.json not found.`);
+  }
+}
+
+function render() {
+  if (!questions.length) {
+    showErr("No questions available.");
+    return;
+  }
+
+  const q = questions[idx];
+  const chosen = userAnswers[idx];
+  const answered = chosen !== undefined;
+
+  // Progress
+  const pct = ((idx + 1) / questions.length) * 100;
+
+  document.getElementById("prog-fill").style.width = pct + "%";
+  document.getElementById("q-counter").textContent =
+    `${idx + 1} / ${questions.length}`;
+
+  // Score
+  let right = 0, wrong = 0;
+
+  Object.entries(userAnswers).forEach(([key, ans]) => {
+    if (ans === questions[Number(key)].correctIndex) right++;
+    else wrong++;
+  });
+
+  document.getElementById("right-count").textContent = right;
+  document.getElementById("wrong-count").textContent = wrong;
+
+  // Exam badges
+  const exams = (q.exams || []).map(e =>
+    `<span class="exam-badge">${e}</span>`
+  ).join("");
+
+  // Options
+  const optsHtml = q.options.map((opt, i) => {
+
+    const letter = String.fromCharCode(65 + i);
+    const correct = i === q.correctIndex;
+    const selected = i === chosen;
+
+    let cls = "";
+
+    if (answered && correct) cls = "correct";
+    else if (answered && selected) cls = "wrong";
+
+    const icon = correct
+      ? '<i class="bi bi-check-circle-fill opt-icon"></i>'
+      : '<i class="bi bi-x-circle-fill opt-icon"></i>';
+
+    return `
+      <div class="opt-card ${cls}"
+           onclick="selectOpt(${i})">
+
+        <div class="opt-content">
+
+          <span class="opt-letter">${letter}</span>
+
+          <span class="opt-text">${opt.text}</span>
+
+          ${answered && (correct || selected) ? icon : ""}
+
+          <button type="button"
+                  class="exp-btn"
+                  onclick="toggleExp(event,${i})">
+            <i id="ico-${i}"
+               class="bi bi-chevron-down"></i>
+          </button>
+
         </div>
-        <h5 class="fw-bold mb-4 lh-base">${q.question}</h5>
-        <div>${optsHtml}</div>
-      `;
 
-      document.getElementById("btn-prev").disabled = idx === 0;
-      document.getElementById("btn-next").textContent = idx === questions.length - 1 ? "Finish" : "Next";
-    }
+        <div id="exp-${i}" class="opt-exp d-none">
+          ${opt.explanation || "No explanation available."}
+        </div>
 
-    function selectOpt(optIdx) {
-      if (userAnswers[idx] !== undefined) return;
-      userAnswers[idx] = optIdx;
-      render();
-    }
+      </div>
+    `;
+  }).join("");
 
-    function toggleExp(e, optIdx) {
-      e.stopPropagation();
-      const box = document.getElementById(`exp-${optIdx}`);
-      const ico = document.getElementById(`ico-${optIdx}`);
-      box.classList.toggle("d-none");
-      ico.className = `bi bi-chevron-${box.classList.contains("d-none") ? "down" : "up"}`;
-    }
+  document.getElementById("quiz-area").innerHTML = `
 
-    function showErr(msg) {
-      document.getElementById("quiz-area").innerHTML = `<div class="alert alert-danger">${msg}</div>`;
-    }
+    <div class="question-card">
 
-    document.getElementById("btn-prev").onclick = () => { if (idx > 0) { idx--; render(); } };
-    document.getElementById("btn-next").onclick = () => { if (idx < questions.length - 1) { idx++; render(); } };
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-    init();
-  </script>
+        <span class="question-number">
+          QUESTION ${idx + 1}
+        </span>
+
+        <div>${exams}</div>
+
+      </div>
+
+      <h5 class="question-text">${q.question}</h5>
+
+      <div>${optsHtml}</div>
+
+    </div>
+  `;
+
+  // Navigation
+  document.getElementById("btn-prev").disabled = idx === 0;
+
+  document.getElementById("btn-next").innerHTML =
+    idx === questions.length - 1
+    ? 'Finish <i class="bi bi-check2 ms-1"></i>'
+    : 'Next <i class="bi bi-arrow-right ms-1"></i>';
+}
+
+function selectOpt(optIdx) {
+  if (userAnswers[idx] !== undefined) return;
+
+  userAnswers[idx] = optIdx;
+  render();
+}
+
+function toggleExp(e, optIdx) {
+  e.stopPropagation();
+
+  const box = document.getElementById(`exp-${optIdx}`);
+  const ico = document.getElementById(`ico-${optIdx}`);
+
+  box.classList.toggle("d-none");
+
+  ico.className = box.classList.contains("d-none")
+    ? "bi bi-chevron-down"
+    : "bi bi-chevron-up";
+}
+
+function showErr(msg) {
+  document.getElementById("quiz-area").innerHTML =
+    `<div class="error-box">${msg}</div>`;
+}
+
+document.getElementById("btn-prev").onclick = () => {
+  if (idx > 0) {
+    idx--;
+    render();
+  }
+};
+
+document.getElementById("btn-next").onclick = () => {
+  if (idx < questions.length - 1) {
+    idx++;
+    render();
+  } else {
+    showResult();
+  }
+};
+
+function showResult() {
+  let right = 0, wrong = 0;
+
+  Object.entries(userAnswers).forEach(([key, ans]) => {
+    if (ans === questions[Number(key)].correctIndex) right++;
+    else wrong++;
+  });
+
+  const unanswered = questions.length - right - wrong;
+  const percentage = Math.round(right / questions.length * 100);
+
+  document.getElementById("quiz-area").innerHTML = `
+    <div class="question-card text-center py-5">
+
+      <div style="font-size:55px;color:#6759e8">
+        <i class="bi bi-trophy-fill"></i>
+      </div>
+
+      <h3 class="fw-bold mt-3">Quiz Completed!</h3>
+
+      <h1 class="fw-bold my-3" style="color:#6759e8">
+        ${percentage}%
+      </h1>
+
+      <div class="d-flex justify-content-center gap-2 flex-wrap mt-4">
+
+        <span class="stat stat-right">${right} Correct</span>
+        <span class="stat stat-wrong">${wrong} Wrong</span>
+
+      </div>
+
+      <p class="text-muted small mt-3">
+        ${unanswered} Unattempted
+      </p>
+
+      <button onclick="restartQuiz()"
+              class="btn btn-lg text-white rounded-4 px-4 mt-3"
+              style="background:#6759e8">
+        <i class="bi bi-arrow-repeat me-2"></i>
+        Try Again
+      </button>
+
+    </div>
+  `;
+
+  document.getElementById("btn-prev").disabled = true;
+  document.getElementById("btn-next").disabled = true;
+}
+
+function restartQuiz() {
+  idx = 0;
+  userAnswers = {};
+
+  document.getElementById("btn-next").disabled = false;
+
+  render();
+}
+
+init();
+</script>
+
 </body>
 </html>
