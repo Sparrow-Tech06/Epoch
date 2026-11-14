@@ -1,1 +1,54 @@
+{
+  "chapterTitle": "Indian Polity & Constitution",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which article of the Indian Constitution abolishes 'Untouchability'?",
+      "exams": ["WBCS Prelims 2020", "SSC CGL 2019", "PSC Clerkship 2020"],
+      "correctIndex": 2,
+      "options": [
+        {
+          "text": "Article 15",
+          "explanation": "Incorrect. Article 15 prohibits discrimination on grounds of religion, race, caste, sex, or place of birth."
+        },
+        {
+          "text": "Article 16",
+          "explanation": "Incorrect. Article 16 guarantees equality of opportunity in matters of public employment."
+        },
+        {
+          "text": "Article 17",
+          "explanation": "Correct! Article 17 abolishes 'Untouchability' and forbids its practice in any form."
+        },
+        {
+          "text": "Article 18",
+          "explanation": "Incorrect. Article 18 deals with the abolition of titles except military and academic distinctions."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "Who was the Chairman of the Drafting Committee of the Indian Constitution?",
+      "exams": ["WBPSC Food SI 2019", "RRB NTPC 2021"],
+      "correctIndex": 1,
+      "options": [
+        {
+          "text": "Dr. Rajendra Prasad",
+          "explanation": "Incorrect. He was the President of the Constituent Assembly."
+        },
+        {
+          "text": "Dr. B.R. Ambedkar",
+          "explanation": "Correct! Dr. B.R. Ambedkar was appointed Chairman of the Drafting Committee on August 29, 1947."
+        },
+        {
+          "text": "Jawaharlal Nehru",
+          "explanation": "Incorrect. He was the Chairman of the Union Constitution Committee."
+        },
+        {
+          "text": "B.N. Rau",
+          "explanation": "Incorrect. He served as the Constitutional Advisor to the Constituent Assembly."
+        }
+      ]
+    }
+  ]
+}
 
