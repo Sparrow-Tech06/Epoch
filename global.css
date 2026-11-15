@@ -107,12 +107,6 @@ body {
     transition: transform 0.25s ease;
 }
 
-.chapter-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    color: #252538;
-}
-
 .chapter-card:hover .chapter-arrow {
     transform: translateX(4px);
 }
